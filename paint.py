@@ -1,38 +1,49 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Ellipse, Line
-from kivy.config import Config
-from kivy.logger import Logger
 from random import randint
 from kivy.core.window import Window
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
+from kivy.uix.screenmanager import ScreenManager, Screen
 
-r = randint(1, 10)/10.0
-g = randint(1, 10)/10.0
-b = randint(1, 10)/10.0
+r = 0.5
+g = 0.5
+b = 0.5
 a = 1
 line = 10
+manager = ScreenManager()
 
-class RootWidget(Widget):
+class PaintScreen(Screen):
 	pass
+
+class ColorScreen(Screen):
+	pass
+
+class StrokeScreen(Screen):
+	pass
+
+class MenuScreen(Screen):
+	pass
+
+class ColorPickerWidget(Widget):
+	
+	def set_color(self, sr, sg, sb, sa):
+		pass
+
 
 class MenuWidget(Widget):
 
 	def init_menu(self):
-		#todo: make it that even when the window is resized
-		self.width = Window.width
-		self.height = Window.height
+
+		pass
+
 
 class CursorWidget(Widget):
 
 	def on_touch_down(self, touch):
-		if 'pos3d' in touch.profile:
-			with self.canvas:
-				Color(1,1,1,1)
-				touch.ud['outer_cursor'] = Ellipse(pos=(touch.x - line, touch.y - line), size=(line*2,line*2))
-				Color(r, g, b, a)
-				touch.ud['cursor'] = Ellipse(pos=(touch.x, touch.y), size=(1,1))
+		pass
 
 	def on_touch_move(self, touch):
 		if 'pos3d' in touch.profile:
@@ -40,12 +51,20 @@ class CursorWidget(Widget):
 			cursor_size = line*2-touch.z/n*2
 			if cursor_size > line*2:
 				cursor_size = line*2
-			touch.ud['outer_cursor'].pos = (touch.x - line, touch.y - line)
-			touch.ud['cursor'].size = (cursor_size, cursor_size)
-			touch.ud['cursor'].pos = (touch.x - cursor_size/2, touch.y - cursor_size/2)
+			try:
+				touch.ud['outer_cursor'].pos = (touch.x - line, touch.y - line)
+				touch.ud['cursor'].size = (cursor_size, cursor_size)
+				touch.ud['cursor'].pos = (touch.x - cursor_size/2, touch.y - cursor_size/2)
+			except KeyError:
+				with self.canvas:
+					Color(1,1,1,1)
+					touch.ud['outer_cursor'] = Ellipse(pos=(touch.x - line, touch.y - line), size=(line*2,line*2))
+					Color(r, g, b, a)
+					touch.ud['cursor'] = Ellipse(pos=(touch.x, touch.y), size=(1,1))
 
 	def on_touch_up(self, touch):
 		#print 'touchup'
+		manager.current = 'color screen'
 		if 'pos3d' in touch.profile:
 			try:
 				self.canvas.remove(touch.ud['cursor'])
@@ -86,16 +105,31 @@ class PaintWidget(Widget):
 
 class PaintApp(App):
 	def build(self):
-		wid = RootWidget()
-		cursor = CursorWidget()
+		self.win = Window
+
+		
+
+		paint_screen = PaintScreen(name='paint screen')
 		paint = PaintWidget()
 		menu = MenuWidget()
 		menu.init_menu()
-
-		wid.add_widget(paint)
-		wid.add_widget(menu)
-		wid.add_widget(cursor)
-		return wid
+		paint_screen.add_widget(paint)
+		paint_screen.add_widget(menu)
+		paint_screen.add_widget(CursorWidget())
+		manager.add_widget(paint_screen)
+		menu_screen = MenuScreen(name='menu screen')
+		menu_screen.add_widget(CursorWidget())
+		colorpicker = ColorPickerWidget()
+		color_screen = ColorScreen(name='color screen')
+		color_screen.add_widget(CursorWidget())
+		color_screen.add_widget(colorpicker)
+		stroke_screen = StrokeScreen(name='stroke screen')
+		stroke_screen.add_widget(CursorWidget())
+		manager.add_widget(menu_screen)
+		manager.add_widget(color_screen)
+		manager.add_widget(stroke_screen)
+		
+		return manager
 
 if __name__ == '__main__':
 	PaintApp().run()

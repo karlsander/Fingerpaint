@@ -1,16 +1,44 @@
-<RootWidget>:
+<ColorPickerWidget>:
+	GridLayout:
+		size: root.width/2, root.height/2
+		pos: root.center_x - self.width/2, root.center_y - self.height/2
+		cols: 10
+		rows: 3
+		
+		Button:
+			background_color: 0.1,0.2,0.3,1
+			on_press: root.set_color(0.1,0.2,0.3,1)
+		Button:
+			background_color: 0.3,0.2,0.3,1
+			on_press: root.set_color(0.3,0.2,0.3,1)
+		Button:
+			background_color: 0.1,1,0.3,1
+			on_press: root.set_color(0.1,1,0.3,1)
+		Button:
+			background_color: 0.1,0.2,1,1
+			on_press: root.set_color(0.1,0.2,1,1)
 
-	
+
+	AnchorLayout:
+
+		size: app.win.width, app.win.height
+		anchor_x: 'right'
+		anchor_y: 'center'
+		Button:
+
+			text: 'back'
+			size_hint: 0.05, 0.5
+			
 
 <PaintWidget>:
 
 
 <MenuWidget>:
-	size: self.width, self.height
+	size: app.win.width, app.win.height
 
 	AnchorLayout:
 
-		size: root.width, root.height
+		size: app.win.width, app.win.height
 		anchor_x: 'right'
 		anchor_y: 'center'
 		Button:
@@ -20,7 +48,7 @@
 
 	AnchorLayout:
 
-		size: root.width, root.height
+		size: app.win.width, app.win.height
 		anchor_x: 'center'
 		anchor_y: 'top'
 		Button:
@@ -30,7 +58,7 @@
 
 	AnchorLayout:
 
-		size: root.width, root.height
+		size: app.win.width, app.win.height
 		anchor_x: 'left'
 		anchor_y: 'center'
 		Button:
