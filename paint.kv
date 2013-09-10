@@ -1,3 +1,45 @@
+
+	
+<MainMenuWidget>:
+	AnchorLayout:
+
+		size: app.win.width, app.win.height
+		anchor_x: 'right'
+		anchor_y: 'center'
+		Button:
+
+			text: 'back'
+			size_hint: 0.05, 0.5
+			on_press: app.manager.current = 'paint screen'
+
+
+
+<StrokePickerWidget>:
+
+	GridLayout:
+		size: root.width/2, root.height/2
+		pos: root.center_x - self.width/2, root.center_y - self.height/2
+		cols: 1
+		rows: 3
+		Label:
+			text: 'Stroke size'
+			font_size: 50
+		Slider:
+
+
+	AnchorLayout:
+
+		size: app.win.width, app.win.height
+		anchor_x: 'right'
+		anchor_y: 'center'
+		Button:
+
+			text: 'back'
+			size_hint: 0.05, 0.5
+			on_press: app.manager.current = 'paint screen'
+
+
+
 <ColorPickerWidget>:
 	GridLayout:
 		size: root.width/2, root.height/2
@@ -28,7 +70,7 @@
 
 			text: 'back'
 			size_hint: 0.05, 0.5
-			
+			on_press: app.manager.current = 'paint screen'
 
 <PaintWidget>:
 
@@ -45,6 +87,7 @@
 
 			text: 'Color'
 			size_hint: 0.05, 0.5
+			on_press: app.manager.current = 'color screen'
 
 	AnchorLayout:
 
@@ -55,6 +98,7 @@
 
 			text: 'Stroke'
 			size_hint: 0.5, 0.05
+			on_press: app.manager.current = 'stroke screen'
 
 	AnchorLayout:
 
@@ -64,4 +108,5 @@
 		Button:
 			text: 'Menu'
 			size_hint: 0.05, 0.5
+			on_press: app.manager.current = 'menu screen'
 	

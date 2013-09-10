@@ -7,8 +7,9 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.properties import NumericProperty
 
-r = 0.5
+r = NumericProperty(0.5)
 g = 0.5
 b = 0.5
 a = 1
@@ -27,10 +28,17 @@ class StrokeScreen(Screen):
 class MenuScreen(Screen):
 	pass
 
+class MainMenuWidget(Widget):
+	pass
+
+class StrokePickerWidget(Widget):
+	pass
+
 class ColorPickerWidget(Widget):
 	
 	def set_color(self, sr, sg, sb, sa):
-		pass
+		print r
+		
 
 
 class MenuWidget(Widget):
@@ -64,7 +72,6 @@ class CursorWidget(Widget):
 
 	def on_touch_up(self, touch):
 		#print 'touchup'
-		manager.current = 'color screen'
 		if 'pos3d' in touch.profile:
 			try:
 				self.canvas.remove(touch.ud['cursor'])
@@ -105,7 +112,9 @@ class PaintWidget(Widget):
 
 class PaintApp(App):
 	def build(self):
+		self.manager = manager
 		self.win = Window
+		self.r = r
 
 		
 
@@ -117,14 +126,18 @@ class PaintApp(App):
 		paint_screen.add_widget(menu)
 		paint_screen.add_widget(CursorWidget())
 		manager.add_widget(paint_screen)
+		mainmenu = MainMenuWidget()
 		menu_screen = MenuScreen(name='menu screen')
 		menu_screen.add_widget(CursorWidget())
+		menu_screen.add_widget(mainmenu)
 		colorpicker = ColorPickerWidget()
+		strokepicker = StrokePickerWidget()
 		color_screen = ColorScreen(name='color screen')
 		color_screen.add_widget(CursorWidget())
 		color_screen.add_widget(colorpicker)
 		stroke_screen = StrokeScreen(name='stroke screen')
 		stroke_screen.add_widget(CursorWidget())
+		stroke_screen.add_widget(strokepicker)
 		manager.add_widget(menu_screen)
 		manager.add_widget(color_screen)
 		manager.add_widget(stroke_screen)
