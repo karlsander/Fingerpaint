@@ -9,7 +9,7 @@ from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import NumericProperty
 
-r = NumericProperty(0.5)
+r = 0.5
 g = 0.5
 b = 0.5
 a = 1
@@ -114,7 +114,6 @@ class PaintApp(App):
 	def build(self):
 		self.manager = manager
 		self.win = Window
-		self.r = r
 
 		
 
@@ -128,16 +127,16 @@ class PaintApp(App):
 		manager.add_widget(paint_screen)
 		mainmenu = MainMenuWidget()
 		menu_screen = MenuScreen(name='menu screen')
-		menu_screen.add_widget(CursorWidget())
 		menu_screen.add_widget(mainmenu)
+		menu_screen.add_widget(CursorWidget())
 		colorpicker = ColorPickerWidget()
 		strokepicker = StrokePickerWidget()
 		color_screen = ColorScreen(name='color screen')
-		color_screen.add_widget(CursorWidget())
 		color_screen.add_widget(colorpicker)
+		color_screen.add_widget(CursorWidget())
 		stroke_screen = StrokeScreen(name='stroke screen')
-		stroke_screen.add_widget(CursorWidget())
 		stroke_screen.add_widget(strokepicker)
+		stroke_screen.add_widget(CursorWidget())
 		manager.add_widget(menu_screen)
 		manager.add_widget(color_screen)
 		manager.add_widget(stroke_screen)
